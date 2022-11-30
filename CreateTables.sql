@@ -30,26 +30,17 @@ create table Customers
 	birthdate date
 )
 
-create table Orders
+create table CustomerProduct
 (
-	order_id int not null primary key,
-	customer_id int not null foreign key references Customers,
-	order_date datetime not null,
-	ship_address varchar(150) not null
-)
-
-create table Order_Items
-(
-	order_id int not null,
+	id int not null primary key identity(1,1),
+	customer_id int not null,
 	product_id int not null,
-	unit_price numeric(8,2) not null,
-	quantity int not null,
 
-	constraint pk_order_items primary key (order_id, product_id),
-	constraint fk_order_items_orders foreign key (order_id)
-		references Orders(order_id)
+	constraint fk_cp_customers foreign key (customer_id)
+		references Customers(customer_id)
 			on update cascade on delete cascade,
-	constraint fk_order_items_products foreign key (product_id)
+
+	constraint fk_cp_products foreign key (product_id)
 		references Products(product_id)
 			on update cascade on delete cascade
 )
